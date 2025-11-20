@@ -401,6 +401,12 @@ function connectWebSocket() {
     ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
 
+        // Handle countdown start
+        if (data.type === 'countdown_start') {
+            showCountdown();
+            return;
+        }
+
         // Handle participant removal
         if (data.type === 'participant_removed') {
             if (data.removed_id === currentUser.id) {
