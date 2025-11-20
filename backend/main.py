@@ -155,6 +155,10 @@ async def start_game(room_code: str):
     room = Room(**room_data)
     if len(room.participants) < 2:
         raise HTTPException(status_code=400, detail="Need at least 2 participants")
+    
+    # Broadcast countdown start to all participants
+    countdown_msg = json.dumps({"type": "countdown_start"})
+    await manager.broadcast(countdown_msg, room_code)
         
     # Shuffle
     updated_participants = assign_secret_santa(room.participants)
