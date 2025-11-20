@@ -82,7 +82,7 @@ uvicorn backend.main:app --reload
    git init
    git add .
    git commit -m "Initial commit"
-   git remote add origin https://github.com/yourusername/secret-santa.git
+   git remote add origin https://github.com/Master768/secret-santa.git
    git push -u origin main
    ```
 
@@ -110,7 +110,7 @@ uvicorn backend.main:app --reload
    | `MONGO_URL` | Your MongoDB Atlas connection string |
    | `DB_NAME` | `secret_santa_db` |
    | `CORS_ORIGINS` | `*` (or your frontend URL) |
-   | `PYTHON_VERSION` | `3.11` |
+   | `PYTHON_VERSION` | `3.11.0` |
 
 6. **Deploy**
    - Click "**Create Web Service**"

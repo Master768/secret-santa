@@ -11,6 +11,21 @@ const emojis = ['😀', '😂', '😍', '🥰', '😎', '🤩', '😊', '😁', 
 // Icons
 lucide.createIcons();
 
+// URL Parameter Detection - Auto-join from shareable link
+window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomCode = urlParams.get('room');
+
+    if (roomCode) {
+        // Auto-fill room code and show join view
+        const joinCodeInput = document.getElementById('join-code');
+        if (joinCodeInput) {
+            joinCodeInput.value = roomCode.toUpperCase();
+            showView('join');
+        }
+    }
+});
+
 // Snow Effect
 function createSnow() {
     const container = document.getElementById('snow-container');
@@ -575,8 +590,42 @@ async function closeRoom() {
 function copyCode() {
     const code = document.getElementById('lobby-code').innerText;
     navigator.clipboard.writeText(code).then(() => {
-        alert('Room code copied to clipboard!');
+        if (typeof showNotification !== 'undefined') {
+            showNotification('Room code copied to clipboard!', 'success');
+        } else {
+            alert('Room code copied to clipboard!');
+        }
     });
+}
+
+function generateShareableLink(roomCode) {
+    return `${window.location.origin}/?room=${roomCode}`;
+}
+
+async function copyShareableLink() {
+    const link = generateShareableLink(currentRoom.code);
+
+    try {
+        await navigator.clipboard.writeText(link);
+        if (typeof showNotification !== 'undefined') {
+            showNotification('Shareable link copied to clipboard!', 'success');
+        } else {
+            alert('Shareable link copied to clipboard!');
+        }
+    } catch (err) {
+        // Fallback for older browsers
+        const tempInput = document.createElement('input');
+        tempInput.value = link;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        if (typeof showNotification !== 'undefined') {
+            showNotification('Link copied!', 'success');
+        } else {
+            alert('Link copied!');
+        }
+    }
 }
 
 function downloadCard() {
