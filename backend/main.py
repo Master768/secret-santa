@@ -71,9 +71,9 @@ def generate_room_code(length=6):
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
 
 # --- Routes ---
-@app.get("/")
+@app.get("/api")
 async def root():
-    """Root endpoint - API is running."""
+    """API status endpoint."""
     return {"message": "Secret Santa API is running", "version": "1.0.0"}
 
 @app.get("/health")
